@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Dynamic.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">TimeLine (Jan 7, 2019 4:25:28 PM)</a> &gt; <a href="../../index.html" class="el_group">TimeLine</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">model</a> &gt; <span class="el_source">Dynamic.java</span></div><h1>Dynamic.java</h1><pre class="source lang-java linenums">package model;
+/**
+ * @author Shashaliu
+ * @date 2018/12/23
+ */
+public class Dynamic {  //动态信息
+
+	String userName;
+	String content;
+	String image;
+	String time;
+	int id;
+
+<span class="fc" id="L14">	public Dynamic() {</span>
+<span class="fc" id="L15">		userName = null;</span>
+<span class="fc" id="L16">		content = null;</span>
+<span class="fc" id="L17">		image = null;</span>
+<span class="fc" id="L18">		time = null;</span>
+<span class="fc" id="L19">		id = 0;</span>
+<span class="fc" id="L20">	}</span>
+
+<span class="fc" id="L22">	public Dynamic(String un, String c, String i, String t, int id) {</span>
+<span class="fc" id="L23">		userName = un;</span>
+<span class="fc" id="L24">		content = c;</span>
+<span class="fc" id="L25">		image = i;</span>
+<span class="fc" id="L26">		time = t;</span>
+<span class="fc" id="L27">		this.id = id;</span>
+<span class="fc" id="L28">	}</span>
+
+	public void setUserName(String un) {
+<span class="fc" id="L31">		userName = un;</span>
+<span class="fc" id="L32">	}</span>
+
+	public String getUserName() {
+<span class="fc" id="L35">		return userName;</span>
+	}
+
+	public void setContent(String c) {
+<span class="fc" id="L39">		content = c;</span>
+<span class="fc" id="L40">	}</span>
+
+	public String getContent() {
+<span class="fc" id="L43">		return content;</span>
+	}
+
+	public void setImage(String i) {
+<span class="fc" id="L47">		image = i;</span>
+<span class="fc" id="L48">	}</span>
+
+	public String getImage() {
+<span class="fc" id="L51">		return image;</span>
+	}
+
+	public void setTime(String t) {
+<span class="fc" id="L55">		time = t;</span>
+<span class="fc" id="L56">	}</span>
+
+	public String getTime() {
+<span class="fc" id="L59">		return time;</span>
+	}
+
+	public void setId(int i) {
+<span class="fc" id="L63">		id = i;</span>
+<span class="fc" id="L64">	}</span>
+
+	public int getId() {
+<span class="fc" id="L67">		return id;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span>TimeLine (Jan 7, 2019 4:25:28 PM)</div></body></html>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>RegisterServletTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">TimeLine (Jan 7, 2019 4:25:28 PM)</a> &gt; <a href="../../index.html" class="el_group">TimeLine</a> &gt; <a href="../index.html" class="el_bundle">test</a> &gt; <a href="index.source.html" class="el_package">servlet</a> &gt; <span class="el_source">RegisterServletTest.java</span></div><h1>RegisterServletTest.java</h1><pre class="source lang-java linenums">package servlet;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
+import java.io.IOException;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import dao.DAO;
+import model.User;
+
+<span class="fc" id="L18">public class RegisterServletTest {</span>
+
+	private RegisterServlet servlet;  
+    private HttpServletRequest mockRequest;  
+    private HttpServletResponse mockResponse;  
+    
+    @Before  
+    public void setUp(){  
+          
+<span class="fc" id="L27">        servlet = new RegisterServlet();  </span>
+          
+        //创建request和response的Mock  
+<span class="fc" id="L30">        mockRequest = mock(HttpServletRequest.class);  </span>
+<span class="fc" id="L31">        mockResponse = mock(HttpServletResponse.class); </span>
+<span class="fc" id="L32">    }  </span>
+    
+	@After
+	public void tearDown() throws Exception {
+<span class="fc" id="L36">	}</span>
+
+	/** 
+     * 测试doGet方法 
+     * @throws IOException 
+     * @throws ServletException 
+     * */  
+    @Test  
+    public void testDoGetWithNullGender() throws IOException, ServletException{  
+          
+<span class="fc" id="L46">    	when(mockRequest.getParameter(&quot;gender&quot;)).thenReturn(null);</span>
+        //开始测试Servlet的doGet方法  
+<span class="fc" id="L48">        servlet.doGet(mockRequest, mockResponse);  </span>
+        
+<span class="fc" id="L50">        verify(mockResponse).sendRedirect(&quot;register.jsp?message=&quot;+&quot;Please input your gender.&quot;);</span>
+    
+<span class="fc" id="L52">    }  </span>
+    
+    @Test  
+    public void testDoGetWithWrongPasswordInput() throws IOException, ServletException{  
+          
+<span class="fc" id="L57">    	when(mockRequest.getParameter(&quot;teleNum&quot;)).thenReturn(&quot;13779001342&quot;);</span>
+<span class="fc" id="L58">    	when(mockRequest.getParameter(&quot;name&quot;)).thenReturn(&quot;John&quot;);</span>
+<span class="fc" id="L59">    	when(mockRequest.getParameter(&quot;gender&quot;)).thenReturn(&quot;male&quot;);</span>
+<span class="fc" id="L60">    	when(mockRequest.getParameter(&quot;password1&quot;)).thenReturn(&quot;1&quot;);</span>
+<span class="fc" id="L61">    	when(mockRequest.getParameter(&quot;password2&quot;)).thenReturn(&quot;2&quot;);</span>
+        //开始测试Servlet的doGet方法  
+<span class="fc" id="L63">        servlet.doGet(mockRequest, mockResponse);  </span>
+        
+<span class="fc" id="L65">        verify(mockResponse).sendRedirect(&quot;register.jsp?message=&quot;+&quot;Password input error.&quot;);</span>
+<span class="fc" id="L66">    }  </span>
+    
+    @Test  
+    public void testDoGetWithExistentUser() throws IOException, ServletException{  
+          
+<span class="fc" id="L71">    	when(mockRequest.getParameter(&quot;teleNum&quot;)).thenReturn(&quot;13979001342&quot;);</span>
+<span class="fc" id="L72">    	when(mockRequest.getParameter(&quot;name&quot;)).thenReturn(&quot;John&quot;);</span>
+<span class="fc" id="L73">    	when(mockRequest.getParameter(&quot;gender&quot;)).thenReturn(&quot;male&quot;);</span>
+<span class="fc" id="L74">    	when(mockRequest.getParameter(&quot;password1&quot;)).thenReturn(&quot;1&quot;);</span>
+<span class="fc" id="L75">    	when(mockRequest.getParameter(&quot;password2&quot;)).thenReturn(&quot;1&quot;);</span>
+        //开始测试Servlet的doGet方法  
+<span class="fc" id="L77">        servlet.doGet(mockRequest, mockResponse);  </span>
+        
+<span class="fc" id="L79">        verify(mockResponse).sendRedirect(&quot;register.jsp?message=&quot;+&quot;The user already exists.&quot;); </span>
+<span class="fc" id="L80">    } </span>
+    @Test  
+    public void testDoGetWithLegalUser() throws IOException, ServletException{  
+          
+<span class="fc" id="L84">    	when(mockRequest.getParameter(&quot;teleNum&quot;)).thenReturn(&quot;13979101342&quot;);</span>
+<span class="fc" id="L85">    	when(mockRequest.getParameter(&quot;name&quot;)).thenReturn(&quot;John&quot;);</span>
+<span class="fc" id="L86">    	when(mockRequest.getParameter(&quot;gender&quot;)).thenReturn(&quot;male&quot;);</span>
+<span class="fc" id="L87">    	when(mockRequest.getParameter(&quot;password1&quot;)).thenReturn(&quot;1&quot;);</span>
+<span class="fc" id="L88">    	when(mockRequest.getParameter(&quot;password2&quot;)).thenReturn(&quot;1&quot;);</span>
+        //开始测试Servlet的doGet方法  
+<span class="fc" id="L90">        servlet.doGet(mockRequest, mockResponse);  </span>
+        
+<span class="fc" id="L92">        verify(mockResponse).sendRedirect(&quot;register.jsp?message=&quot;+&quot;Registered successfully.&quot;);</span>
+<span class="fc" id="L93">    }  </span>
+    
+    /** 
+     * 测试doPost方法 
+     * @throws IOException 
+     * @throws ServletException 
+     * */  
+    @Test  
+    public void testDoPostWithNullGender() throws IOException, ServletException{  
+          
+<span class="fc" id="L103">    	when(mockRequest.getParameter(&quot;gender&quot;)).thenReturn(null);</span>
+        //开始测试Servlet的doPost方法  
+<span class="fc" id="L105">        servlet.doPost(mockRequest, mockResponse);  </span>
+        
+<span class="fc" id="L107">        verify(mockResponse).sendRedirect(&quot;register.jsp?message=&quot;+&quot;Please input your gender.&quot;);</span>
+<span class="fc" id="L108">    }  </span>
+    
+    @Test  
+    public void testDoPostWithWrongPasswordInput() throws IOException, ServletException{  
+          
+<span class="fc" id="L113">    	when(mockRequest.getParameter(&quot;teleNum&quot;)).thenReturn(&quot;13779001342&quot;);</span>
+<span class="fc" id="L114">    	when(mockRequest.getParameter(&quot;name&quot;)).thenReturn(&quot;John&quot;);</span>
+<span class="fc" id="L115">    	when(mockRequest.getParameter(&quot;gender&quot;)).thenReturn(&quot;male&quot;);</span>
+<span class="fc" id="L116">    	when(mockRequest.getParameter(&quot;password1&quot;)).thenReturn(&quot;1&quot;);</span>
+<span class="fc" id="L117">    	when(mockRequest.getParameter(&quot;password2&quot;)).thenReturn(&quot;2&quot;);</span>
+
+        //开始测试Servlet的doPost方法  
+<span class="fc" id="L120">        servlet.doPost(mockRequest, mockResponse);  </span>
+        
+<span class="fc" id="L122">        verify(mockResponse).sendRedirect(&quot;register.jsp?message=&quot;+&quot;Password input error.&quot;);</span>
+<span class="fc" id="L123">    }  </span>
+    
+    @Test  
+    public void testDoPostWithExistentUser() throws IOException, ServletException{  
+          
+<span class="fc" id="L128">    	when(mockRequest.getParameter(&quot;teleNum&quot;)).thenReturn(&quot;13979001342&quot;);</span>
+<span class="fc" id="L129">    	when(mockRequest.getParameter(&quot;name&quot;)).thenReturn(&quot;John&quot;);</span>
+<span class="fc" id="L130">    	when(mockRequest.getParameter(&quot;gender&quot;)).thenReturn(&quot;male&quot;);</span>
+<span class="fc" id="L131">    	when(mockRequest.getParameter(&quot;password1&quot;)).thenReturn(&quot;1&quot;);</span>
+<span class="fc" id="L132">    	when(mockRequest.getParameter(&quot;password2&quot;)).thenReturn(&quot;1&quot;);</span>
+    	
+        //开始测试Servlet的doPost方法  
+<span class="fc" id="L135">        servlet.doPost(mockRequest, mockResponse);  </span>
+        
+<span class="fc" id="L137">        verify(mockResponse).sendRedirect(&quot;register.jsp?message=&quot;+&quot;The user already exists.&quot;); </span>
+<span class="fc" id="L138">    } </span>
+    @Test  
+    public void testDoPostWithLegalUser() throws IOException, ServletException{  
+          
+<span class="fc" id="L142">    	when(mockRequest.getParameter(&quot;teleNum&quot;)).thenReturn(&quot;13879701342&quot;);</span>
+<span class="fc" id="L143">    	when(mockRequest.getParameter(&quot;name&quot;)).thenReturn(&quot;Tom&quot;);</span>
+<span class="fc" id="L144">    	when(mockRequest.getParameter(&quot;gender&quot;)).thenReturn(&quot;male&quot;);</span>
+<span class="fc" id="L145">    	when(mockRequest.getParameter(&quot;password1&quot;)).thenReturn(&quot;1&quot;);</span>
+<span class="fc" id="L146">    	when(mockRequest.getParameter(&quot;password2&quot;)).thenReturn(&quot;1&quot;);</span>
+        //开始测试Servlet的doPost方法  
+<span class="fc" id="L148">        servlet.doPost(mockRequest, mockResponse);  </span>
+        
+<span class="fc" id="L150">        verify(mockResponse).sendRedirect(&quot;register.jsp?message=&quot;+&quot;Registered successfully.&quot;);</span>
+<span class="fc" id="L151">    }  </span>
+    
+   
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span>TimeLine (Jan 7, 2019 4:25:28 PM)</div></body></html>

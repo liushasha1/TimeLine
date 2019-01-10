@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>RegisterServlet.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">TimeLine (Jan 7, 2019 4:25:28 PM)</a> &gt; <a href="../../index.html" class="el_group">TimeLine</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">servlet</a> &gt; <span class="el_source">RegisterServlet.java</span></div><h1>RegisterServlet.java</h1><pre class="source lang-java linenums">package servlet;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.mysql.jdbc.Connection;
+import model.User;
+import dao.DAO;
+import util.DbUtil;
+
+/**
+ * Servlet implementation class RegisterServlet
+ */
+/**
+ * @author Shashaliu
+ * @date 2018/12/23
+ */
+@WebServlet(&quot;/registerServlet&quot;)
+public class RegisterServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+   
+	 /**
+	  * @see HttpServlet#HttpServlet()
+	  */
+	 public RegisterServlet() {
+<span class="fc" id="L31">	  super();</span>
+<span class="fc" id="L32">	 }</span>
+
+	 /**
+	  * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	  *      response)
+	  */
+	 @Override
+	 protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	   throws ServletException, IOException {
+<span class="fc" id="L41">	  doPost(request, response);</span>
+<span class="fc" id="L42">	 }</span>
+
+	 /**
+	  * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	  */
+	 @Override
+	 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {  
+<span class="fc" id="L49">		     request.setCharacterEncoding(&quot;utf-8&quot;);</span>
+		  
+<span class="fc" id="L51">	         String teleNum = request.getParameter(&quot;teleNum&quot;);  </span>
+<span class="fc" id="L52">	         String password1 = request.getParameter(&quot;password1&quot;);  </span>
+<span class="fc" id="L53">	         String password2 = request.getParameter(&quot;password2&quot;);  </span>
+<span class="fc" id="L54">	         String name = request.getParameter(&quot;name&quot;); </span>
+<span class="fc" id="L55">	         String gender=request.getParameter(&quot;gender&quot;);</span>
+	         
+	        
+<span class="fc bfc" id="L58" title="All 2 branches covered.">	         if(gender==null){  </span>
+<span class="fc" id="L59">	             response.sendRedirect(&quot;register.jsp?message=&quot;+&quot;Please input your gender.&quot;);  </span>
+<span class="fc" id="L60">	             return;  </span>
+	         }
+<span class="fc bfc" id="L62" title="All 2 branches covered.">	         if(!password1.equals(password2)){  </span>
+<span class="fc" id="L63">	             response.sendRedirect(&quot;register.jsp?message=&quot;+&quot;Password input error.&quot;);  </span>
+<span class="fc" id="L64">	             return;  </span>
+	         }  
+<span class="fc" id="L66">	         User user=new User(teleNum,gender,name,password1);</span>
+<span class="fc" id="L67">	         DAO dao=new DAO();</span>
+	         try {
+<span class="fc bfc" id="L69" title="All 2 branches covered.">	         if(dao.login(user).getTeleNum()!=null)</span>
+	         {
+<span class="fc" id="L71">	           response.sendRedirect(&quot;register.jsp?message=&quot;+&quot;The user already exists.&quot;);  </span>
+<span class="fc" id="L72">	         }</span>
+	         else {
+<span class="fc" id="L74">	         dao.register(user);</span>
+<span class="fc" id="L75">	         response.sendRedirect(&quot;register.jsp?message=&quot;+&quot;Registered successfully.&quot;);</span>
+	         }
+<span class="pc" id="L77">	         }catch (Exception e) {</span>
+<span class="nc" id="L78">	                e.printStackTrace();}</span>
+<span class="fc" id="L79">	 }</span>
+
+	
+	}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span>TimeLine (Jan 7, 2019 4:25:28 PM)</div></body></html>

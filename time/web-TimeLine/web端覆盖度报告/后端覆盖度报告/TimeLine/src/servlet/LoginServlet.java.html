@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>LoginServlet.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">TimeLine (Jan 7, 2019 4:25:28 PM)</a> &gt; <a href="../../index.html" class="el_group">TimeLine</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">servlet</a> &gt; <span class="el_source">LoginServlet.java</span></div><h1>LoginServlet.java</h1><pre class="source lang-java linenums">package servlet;
+
+import java.io.IOException;
+
+import java.net.UnknownHostException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.mysql.jdbc.Connection;
+
+import dao.DAO;
+import model.User;
+import util.DbUtil;
+
+@WebServlet(&quot;/loginServlet&quot;)
+/**
+   * @author liushasha
+   * @date 2018/12/23
+   */
+public class LoginServlet extends HttpServlet {
+	
+		/**
+		 * @see HttpServlet#HttpServlet()
+		 */
+		public LoginServlet() {
+<span class="fc" id="L30">			super();</span>
+<span class="fc" id="L31">		}</span>
+
+		/**
+		 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+		 */
+		@Override
+		protected void doGet(HttpServletRequest request, HttpServletResponse response)
+				throws ServletException, IOException {
+<span class="fc" id="L39">			  this.doPost(request, response);</span>
+<span class="fc" id="L40">		}</span>
+
+		/**
+		 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+		 */
+		@Override
+		protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+<span class="fc" id="L47">			request.setCharacterEncoding(&quot;utf-8&quot;);</span>
+<span class="fc" id="L48">			response.setContentType(&quot;text/html;charset=utf-8&quot;);</span>
+			
+<span class="fc" id="L50">			String teleNum = request.getParameter(&quot;telephone&quot;);</span>
+<span class="fc" id="L51">			String password = request.getParameter(&quot;password&quot;);</span>
+<span class="fc" id="L52">			User user = new User(teleNum, password);</span>
+<span class="fc" id="L53">			DAO dao = new DAO();</span>
+			try {
+<span class="fc" id="L55">				User resultUser = dao.login(user);</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">				if (resultUser.getTeleNum() == null) {</span>
+<span class="fc" id="L57">					response.sendRedirect(&quot;login.jsp?msg=&quot;+&quot;no such user!&quot;);</span>
+<span class="fc" id="L58">					return;</span>
+				}
+<span class="fc bfc" id="L60" title="All 2 branches covered.">				else if (!resultUser.getPassword().equals(password)) {</span>
+<span class="fc" id="L61">					response.sendRedirect(&quot;login.jsp?msg=&quot;+&quot;wrong password!&quot;);</span>
+<span class="fc" id="L62">					return;</span>
+				}
+				else {
+<span class="fc" id="L65">					response.sendRedirect(&quot;index.jsp&quot;);</span>
+				}
+				
+<span class="pc" id="L68">			} catch (Exception e) {</span>
+<span class="nc" id="L69">				e.printStackTrace();</span>
+			}
+
+			
+<span class="fc" id="L73">		}</span>
+	}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span>TimeLine (Jan 7, 2019 4:25:28 PM)</div></body></html>

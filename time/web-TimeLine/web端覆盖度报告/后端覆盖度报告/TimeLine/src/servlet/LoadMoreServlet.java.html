@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>LoadMoreServlet.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">TimeLine (Jan 7, 2019 4:25:28 PM)</a> &gt; <a href="../../index.html" class="el_group">TimeLine</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">servlet</a> &gt; <span class="el_source">LoadMoreServlet.java</span></div><h1>LoadMoreServlet.java</h1><pre class="source lang-java linenums">package servlet;
+
+import java.io.IOException;
+
+import java.io.PrintWriter;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.mysql.jdbc.Connection;
+
+import util.DbUtil;
+
+/**
+ * Servlet implementation class LoadMoreServlet
+ */
+@WebServlet(&quot;/LoadMoreServlet&quot;)
+public class LoadMoreServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public LoadMoreServlet() {
+<span class="fc" id="L33">		super();</span>
+		// TODO Auto-generated constructor stub
+<span class="fc" id="L35">	}</span>
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+<span class="fc" id="L43">		doPost(request, response);</span>
+<span class="fc" id="L44">	}</span>
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+<span class="fc" id="L52">		response.setContentType(&quot;text/html&quot;);</span>
+<span class="fc" id="L53">		request.setCharacterEncoding(&quot;utf-8&quot;);</span>
+<span class="fc" id="L54">		response.setCharacterEncoding(&quot;UTF-8&quot;);</span>
+<span class="fc" id="L55">		PrintWriter out = response.getWriter();</span>
+<span class="fc" id="L56">		ResultSet re = null;</span>
+<span class="fc" id="L57">		Statement stmt = null;</span>
+<span class="fc" id="L58">		Connection con = null;</span>
+<span class="fc" id="L59">		DbUtil db = new DbUtil();</span>
+<span class="fc" id="L60">		String userName = null, descript = null, time = null, image = null;</span>
+<span class="fc" id="L61">		int id = 0;</span>
+<span class="fc" id="L62">		int startId = Integer.parseInt(request.getParameter(&quot;more_pos&quot;));</span>
+<span class="fc" id="L63">		String outstring = &quot;&quot;;</span>
+		try {
+<span class="fc" id="L65">			con = (Connection) db.getConnection();</span>
+<span class="fc" id="L66">			stmt = con.createStatement();</span>
+			// 连接数据库获取小于id的最新的十条动态
+<span class="fc" id="L68">			re = stmt.executeQuery(&quot;SELECT * FROM dynamic where ID &lt; &quot; + startId + &quot; order by ID DESC limit 10&quot;);</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">			if (re.next()) {</span>
+<span class="fc" id="L70">				if (re.previous()) {</span>
+				};
+<span class="fc bfc" id="L72" title="All 2 branches covered.">				while (re.next()) {</span>
+<span class="fc" id="L73">					descript = re.getString(&quot;content&quot;);</span>
+<span class="fc" id="L74">					userName = re.getString(&quot;userName&quot;);</span>
+<span class="fc" id="L75">					Date time1 = new Date(re.getTimestamp(&quot;time&quot;).getTime());</span>
+<span class="fc" id="L76">					SimpleDateFormat formattime = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);</span>
+<span class="fc" id="L77">					time = formattime.format(time1);</span>
+<span class="fc" id="L78">					image = re.getString(&quot;image&quot;);</span>
+<span class="fc" id="L79">					id = re.getInt(&quot;ID&quot;);</span>
+
+<span class="fc" id="L81">					outstring += &quot;&lt;div class=\&quot;row\&quot; name=\&quot;dynamic\&quot;&gt;&quot;;</span>
+<span class="fc" id="L82">					outstring += &quot;&lt;div class=\&quot;col-md-12\&quot;&gt;&quot;;</span>
+<span class="fc" id="L83">					outstring += &quot;&lt;p name=\&quot;id\&quot; style=\&quot;visibility: hidden\&quot; &gt;&quot; + id + &quot;&lt;/p&gt;&quot;;</span>
+<span class="fc" id="L84">					outstring += &quot;&lt;ul class=\&quot;timeline\&quot;&gt;&lt;li&gt;&quot;;</span>
+<span class="fc" id="L85">					outstring += &quot;&lt;span style=\&quot;color: blue\&quot;&gt;&quot; + userName + &quot;&lt;/span&gt;&quot;;</span>
+<span class="fc" id="L86">					outstring += &quot;&lt;p style=\&quot;color: blue\&quot; class=\&quot;float-right\&quot; name=\&quot;time\&quot;&gt;&quot; + time + &quot;&lt;/p&gt;&quot;;</span>
+<span class="fc" id="L87">					outstring += &quot;&lt;p name=\&quot;hiddenTime\&quot; style=\&quot;visibility: hidden\&quot;&gt;&quot; + time + &quot;&lt;/p&gt;&quot;;</span>
+<span class="fc" id="L88">					outstring += &quot;&lt;p&gt;&quot; + descript + &quot;&lt;/p&gt;&quot;;</span>
+<span class="fc bfc" id="L89" title="All 4 branches covered.">					if (image != null &amp;&amp; image.equals(&quot;&quot;))</span>
+<span class="fc" id="L90">						outstring += &quot;&lt;img src=\&quot;&quot; + image + &quot;\&quot; class=\&quot;img-thumbnail\&quot;&gt;&quot;;</span>
+<span class="fc" id="L91">					outstring += &quot;&lt;/li&gt; &lt;/ul&gt;&lt;/div&gt;&lt;/div&gt;&quot;;</span>
+				}
+<span class="fc" id="L93">				out.write(outstring);</span>
+<span class="fc" id="L94">			} else {</span>
+<span class="fc" id="L95">				out.write(&quot;&lt;p style=\&quot;color: red\&quot; class=\&quot;float-right\&quot;&gt;已加载所有动态&lt;/p&gt;&quot;);</span>
+			}
+<span class="pc" id="L97">		} catch (SQLException e) {</span>
+<span class="nc" id="L98">			System.out.println(&quot;SQL Exception: &quot; + e.toString());</span>
+		} finally {
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">			if (re != null) {</span>
+				try {
+<span class="fc" id="L102">					re.close();</span>
+<span class="pc" id="L103">				} catch (SQLException e) {</span>
+<span class="nc" id="L104">					e.printStackTrace();</span>
+				}
+			}
+<span class="pc bpc" id="L107" title="1 of 2 branches missed.">			if (stmt != null) {</span>
+				try {
+<span class="fc" id="L109">					stmt.close();</span>
+<span class="pc" id="L110">				} catch (SQLException e) {</span>
+<span class="nc" id="L111">					e.printStackTrace();</span>
+				}
+			}
+<span class="pc bpc" id="L114" title="1 of 2 branches missed.">			if (con != null) {</span>
+				try {
+<span class="fc" id="L116">					con.close();</span>
+<span class="pc" id="L117">				} catch (SQLException e) {</span>
+<span class="nc" id="L118">					e.printStackTrace();</span>
+				}
+			}
+		}
+<span class="fc" id="L122">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span>TimeLine (Jan 7, 2019 4:25:28 PM)</div></body></html>

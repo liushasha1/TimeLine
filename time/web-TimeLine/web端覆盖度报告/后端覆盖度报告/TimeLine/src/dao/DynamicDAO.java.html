@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>DynamicDAO.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">TimeLine (Jan 7, 2019 4:25:28 PM)</a> &gt; <a href="../../index.html" class="el_group">TimeLine</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">dao</a> &gt; <span class="el_source">DynamicDAO.java</span></div><h1>DynamicDAO.java</h1><pre class="source lang-java linenums">package dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import model.Dynamic;
+import util.DbUtil;
+
+/**
+ * @author Shashaliu
+ * @date 2018/12/23
+ */
+<span class="fc" id="L19">public class DynamicDAO {</span>
+
+	/**
+	 * 
+	 * 连接数据库获取最新的十条动态
+	 * 
+	 */
+	public List&lt;Dynamic&gt; getDynamicList() throws Exception {
+<span class="fc" id="L27">		List&lt;Dynamic&gt; dynamics = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L28">		DbUtil db = new DbUtil();</span>
+<span class="fc" id="L29">		PreparedStatement pstmt = null;</span>
+<span class="fc" id="L30">		ResultSet rs = null;</span>
+<span class="fc" id="L31">		Connection con = null;</span>
+		try {
+<span class="fc" id="L33">			con = db.getConnection();</span>
+<span class="fc" id="L34">			String sql = &quot;SELECT * FROM dynamic where time &lt; now() order by ID desc limit 10&quot;;</span>
+<span class="fc" id="L35">			pstmt = con.prepareStatement(sql);</span>
+<span class="fc" id="L36">			rs = pstmt.executeQuery();</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">			while (rs.next()) {</span>
+<span class="fc" id="L38">				Date time1 = new Date(rs.getTimestamp(&quot;time&quot;).getTime());</span>
+<span class="fc" id="L39">				SimpleDateFormat formattime = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);</span>
+<span class="fc" id="L40">				String pubtime = formattime.format(time1);</span>
+<span class="fc" id="L41">				Dynamic tmp = new Dynamic(rs.getString(&quot;userName&quot;), rs.getString(&quot;content&quot;), rs.getString(&quot;image&quot;),</span>
+<span class="fc" id="L42">						pubtime, rs.getInt(&quot;ID&quot;));</span>
+<span class="fc" id="L43">				dynamics.add(tmp);</span>
+			}
+<span class="pc" id="L45">		} catch (Exception e) {</span>
+<span class="nc" id="L46">			System.out.println(&quot;Exception: &quot; + e.toString());</span>
+		} finally {
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">			if (rs != null) {</span>
+<span class="fc" id="L49">					rs.close();</span>
+			}
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">			if (pstmt != null) {</span>
+<span class="fc" id="L52">					pstmt.close();</span>
+			}
+<span class="pc bpc" id="L54" title="1 of 2 branches missed.">			if (con != null) {</span>
+<span class="fc" id="L55">					con.close();</span>
+				}
+<span class="fc" id="L57">			db.close();</span>
+			}
+		
+<span class="fc" id="L60">		return dynamics;</span>
+	}
+
+	/**
+	 * 
+	 * 连接数据库获取比输入时间time之后的动态的总条数
+	 * 
+	 */
+	public int getDynamicNumber(String time) throws Exception {
+<span class="fc" id="L69">		int num = 0;</span>
+<span class="fc" id="L70">		DbUtil db = new DbUtil();</span>
+<span class="fc" id="L71">		Connection con = null;</span>
+<span class="fc" id="L72">		PreparedStatement pstmt = null;</span>
+<span class="fc" id="L73">		ResultSet rs = null;</span>
+		try {
+<span class="fc bfc" id="L75" title="All 2 branches covered.">			if(time!=null) {</span>
+<span class="fc" id="L76">			con = db.getConnection();</span>
+<span class="fc" id="L77">			String sql = &quot;SELECT * FROM dynamic where time &gt; ?&quot;;</span>
+<span class="fc" id="L78">			pstmt = con.prepareStatement(sql);</span>
+<span class="fc" id="L79">			pstmt.setString(1, time);</span>
+<span class="fc" id="L80">			rs = pstmt.executeQuery();</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">			while (rs.next()) {</span>
+<span class="fc" id="L82">				num++;</span>
+			}
+			}
+<span class="pc" id="L85">		} catch (Exception e) {</span>
+<span class="nc" id="L86">			System.out.println(&quot;SQL Exception: &quot; + e.toString());</span>
+		} finally {
+<span class="fc bfc" id="L88" title="All 2 branches covered.">			if (rs != null) {</span>
+<span class="fc" id="L89">					rs.close();</span>
+			}
+<span class="fc bfc" id="L91" title="All 2 branches covered.">			if (pstmt != null) {</span>
+<span class="fc" id="L92">					pstmt.close();</span>
+			}
+<span class="fc bfc" id="L94" title="All 2 branches covered.">			if (con != null) {</span>
+<span class="fc" id="L95">					con.close();</span>
+			}
+<span class="fc" id="L97">			db.close();</span>
+		}
+<span class="fc" id="L99">		return num;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span>TimeLine (Jan 7, 2019 4:25:28 PM)</div></body></html>

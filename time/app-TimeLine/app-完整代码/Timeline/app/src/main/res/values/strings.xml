@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Timeline</string>
+    <string name="refresh_button">%1$s 更新</string>
+</resources>

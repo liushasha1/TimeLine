@@ -1,0 +1,28 @@
+20190107 0:03:57.691,166,SEVERE,"Error saving coverage data",jscover.server.InstrumentingRequestHandler,
+java.lang.RuntimeException: java.io.FileNotFoundException: /Users/liushasha1/eclipse-jee-workspace/TimeLine/WebContent/js/src-js/update.js (No such file or directory)
+	at jscover.util.IoUtils.copy(IoUtils.java:600)
+	at jscover.server.InstrumentingRequestHandler.copyJSSourceIntoReportDir(InstrumentingRequestHandler.java:446)
+	at jscover.server.InstrumentingRequestHandler.storeReport(InstrumentingRequestHandler.java:423)
+	at jscover.server.InstrumentingRequestHandler.handlePostOrPut(InstrumentingRequestHandler.java:391)
+	at jscover.server.HttpServer.run(HttpServer.java:418)
+Caused by: java.io.FileNotFoundException: /Users/liushasha1/eclipse-jee-workspace/TimeLine/WebContent/js/src-js/update.js (No such file or directory)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+	at java.base/java.io.FileInputStream.open(FileInputStream.java:220)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:158)
+	at jscover.util.IoUtils.copy(IoUtils.java:596)
+	... 4 more
+
+20190107 0:04:29.415,167,SEVERE,"Error saving coverage data",jscover.server.InstrumentingRequestHandler,
+java.lang.RuntimeException: java.io.FileNotFoundException: /Users/liushasha1/eclipse-jee-workspace/TimeLine/WebContent/js/src-js/update.js (No such file or directory)
+	at jscover.util.IoUtils.copy(IoUtils.java:600)
+	at jscover.server.InstrumentingRequestHandler.copyJSSourceIntoReportDir(InstrumentingRequestHandler.java:446)
+	at jscover.server.InstrumentingRequestHandler.storeReport(InstrumentingRequestHandler.java:423)
+	at jscover.server.InstrumentingRequestHandler.handlePostOrPut(InstrumentingRequestHandler.java:391)
+	at jscover.server.HttpServer.run(HttpServer.java:418)
+Caused by: java.io.FileNotFoundException: /Users/liushasha1/eclipse-jee-workspace/TimeLine/WebContent/js/src-js/update.js (No such file or directory)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+	at java.base/java.io.FileInputStream.open(FileInputStream.java:220)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:158)
+	at jscover.util.IoUtils.copy(IoUtils.java:596)
+	... 4 more
+

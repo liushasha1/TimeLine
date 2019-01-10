@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>WebSocketTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">TimeLine (Jan 7, 2019 4:25:28 PM)</a> &gt; <a href="../../index.html" class="el_group">TimeLine</a> &gt; <a href="../index.html" class="el_bundle">test</a> &gt; <a href="index.source.html" class="el_package">servlet</a> &gt; <span class="el_source">WebSocketTest.java</span></div><h1>WebSocketTest.java</h1><pre class="source lang-java linenums">package servlet;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
+
+import javax.websocket.RemoteEndpoint;
+import javax.websocket.RemoteEndpoint.Basic;
+import javax.websocket.server.ServerEndpoint;
+import javax.websocket.Session;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import dao.DAO;
+
+<span class="fc" id="L17">public class WebSocketTest {</span>
+	WebSocket webSocket;
+	Session mockSession;
+	String message;
+	@Before  
+    public void setUp(){          
+<span class="fc" id="L23">		webSocket=new WebSocket();</span>
+<span class="fc" id="L24">		mockSession = spy(Session.class);</span>
+<span class="fc" id="L25">		message=&quot;hello!&quot;;</span>
+<span class="fc" id="L26">    }  </span>
+	@Test
+	public void testOnOpen() {
+<span class="fc" id="L29">		int bnum=webSocket.getOnlineCount();</span>
+<span class="fc" id="L30">		webSocket.onOpen(mockSession);</span>
+<span class="fc" id="L31">		assertEquals(bnum+1,webSocket.getOnlineCount());</span>
+<span class="fc" id="L32">	}</span>
+
+	@Test
+	public void testOnClose() {
+<span class="fc" id="L36">		int bnum=webSocket.getOnlineCount();</span>
+<span class="fc" id="L37">		webSocket.onClose();</span>
+<span class="fc" id="L38">		assertEquals(bnum-1,webSocket.getOnlineCount());</span>
+<span class="fc" id="L39">	}</span>
+	
+	@Test
+	public void testOnMessage() throws Exception {
+<span class="fc" id="L43">		webSocket.onMessage(message,mockSession);</span>
+<span class="fc" id="L44">	}</span>
+	
+	@Test
+	public void testOnError() throws Exception {
+<span class="fc" id="L48">	   RuntimeException runError = new RuntimeException(&quot;Surprise!&quot;);</span>
+<span class="fc" id="L49">	   webSocket.onError(mockSession,runError);</span>
+<span class="fc" id="L50">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span>TimeLine (Jan 7, 2019 4:25:28 PM)</div></body></html>

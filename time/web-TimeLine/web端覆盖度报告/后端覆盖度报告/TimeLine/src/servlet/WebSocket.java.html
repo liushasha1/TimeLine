@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>WebSocket.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">TimeLine (Jan 7, 2019 4:25:28 PM)</a> &gt; <a href="../../index.html" class="el_group">TimeLine</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">servlet</a> &gt; <span class="el_source">WebSocket.java</span></div><h1>WebSocket.java</h1><pre class="source lang-java linenums">package servlet;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.concurrent.CopyOnWriteArraySet;
+ 
+import javax.websocket.*;
+import javax.websocket.server.ServerEndpoint;
+
+import dao.DynamicDAO;
+ 
+/**
+ * @ServerEndpoint 注解是一个类层次的注解，它的功能主要是将目前的类定义成一个websocket服务器端,
+ *         注解的值将被用于监听用户连接的终端访问URL地址,客户端可以通过这个URL来连接到WebSocket服务器端
+ */
+/**
+ * @author Shashaliu
+ * @date 2018/12/23
+ */
+@ServerEndpoint(&quot;/websocket&quot;)
+<span class="fc" id="L20">public class WebSocket {</span>
+<span class="fc" id="L21">	 private static int onlineCount = 0;</span>
+	 
+	  /**
+	  *concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。若要实现服务端与单一客户端通信的话，可以使用Map来存放，其中Key可以为用户标识
+	  **/
+<span class="fc" id="L26">	 private static CopyOnWriteArraySet&lt;WebSocket&gt; webSocketSet = new CopyOnWriteArraySet&lt;&gt;();</span>
+	 
+	 /**
+	  *与某个客户端的连接会话，需要通过它来给客户端发送数据
+	  **/
+	 private Session session;
+	 
+	 /**
+	 * 连接建立成功调用的方法
+	 * 
+	 * @param session
+	 *      可选的参数。session为与某个客户端的连接会话，需要通过它来给客户端发送数据
+	 */
+	 @OnOpen
+	 public void onOpen(Session session) {
+<span class="fc" id="L41">	 this.session = session;</span>
+	// 加入set中
+<span class="fc" id="L43">	 webSocketSet.add(this); </span>
+	// 在线数加1
+<span class="fc" id="L45">	 addOnlineCount(); </span>
+<span class="fc" id="L46">	 System.out.println(&quot;有新连接加入！当前在线人数为&quot; + getOnlineCount());</span>
+<span class="fc" id="L47">	 }</span>
+	 
+	 /**
+	 * 连接关闭调用的方法
+	 */
+	 @OnClose
+	 public void onClose() {
+	 // 从set中删除
+<span class="fc" id="L55">	 webSocketSet.remove(this); </span>
+	 // 在线数减1
+<span class="fc" id="L57">	 subOnlineCount(); </span>
+<span class="fc" id="L58">	 System.out.println(&quot;有一连接关闭！当前在线人数为&quot; + getOnlineCount());</span>
+<span class="fc" id="L59">	 }</span>
+	 
+	 /**
+	 * 收到客户端消息后调用的方法
+	 * 
+	 * @param message
+	 *      客户端发送过来的消息
+	 * @param session
+	 *      可选的参数
+	 * @throws IOException 
+	 */
+	 @OnMessage
+	 public void onMessage(String message, Session session) throws Exception {
+<span class="fc" id="L72">	 System.out.println(&quot;来自客户端的消息:&quot; + message);</span>
+	 // 群发消息
+<span class="fc" id="L74">	 DynamicDAO dynamicDao = new DynamicDAO();</span>
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">	 for (WebSocket item : webSocketSet) {</span>
+	  try {
+<span class="nc" id="L77">		item.sendMessage(String.valueOf(dynamicDao.getDynamicNumber(message)));</span>
+<span class="nc" id="L78">	} catch (Exception e) {</span>
+<span class="nc" id="L79">		e.printStackTrace();</span>
+	}
+	 }
+<span class="fc" id="L82">	 }</span>
+	 
+	 /**
+	 * 发生错误时调用
+	 * 
+	 * @param session
+	 * @param error
+	 */
+	 @OnError
+	 public void onError(Session session, Throwable error) {
+<span class="fc" id="L92">	 System.out.println(&quot;发生错误&quot;);</span>
+<span class="fc" id="L93">	 error.printStackTrace();</span>
+<span class="fc" id="L94">	 }</span>
+	 
+	 /**
+	 * 这个方法与上面几个方法不一样。没有用注解，是根据自己需要添加的方法。
+	 * 
+	 * @param message
+	 * @throws IOException
+	 */
+	 public void sendMessage(String message) throws IOException {
+<span class="nc" id="L103">	 this.session.getBasicRemote().sendText(message);</span>
+<span class="nc" id="L104">	 }</span>
+	 
+	 public static synchronized int getOnlineCount() {
+<span class="fc" id="L107">	 return onlineCount;</span>
+	 }
+	 
+	 public static synchronized void addOnlineCount() {
+<span class="fc" id="L111">		 WebSocket.onlineCount++;</span>
+<span class="fc" id="L112">	 }</span>
+	 
+	 public static synchronized void subOnlineCount() {
+<span class="fc" id="L115">		 WebSocket.onlineCount--;</span>
+<span class="fc" id="L116">	 }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span>TimeLine (Jan 7, 2019 4:25:28 PM)</div></body></html>

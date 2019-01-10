@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>DynamicDAOTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">TimeLine (Jan 7, 2019 4:25:28 PM)</a> &gt; <a href="../../index.html" class="el_group">TimeLine</a> &gt; <a href="../index.html" class="el_bundle">test</a> &gt; <a href="index.source.html" class="el_package">dao</a> &gt; <span class="el_source">DynamicDAOTest.java</span></div><h1>DynamicDAOTest.java</h1><pre class="source lang-java linenums">package dao;
+
+import static org.junit.Assert.*;
+
+import static org.hamcrest.CoreMatchers.*;
+import java.sql.SQLException;
+import java.util.List;
+import org.junit.Before;
+import org.junit.Test;
+import model.Dynamic;
+
+<span class="fc" id="L12">public class DynamicDAOTest {</span>
+	private  DynamicDAO  dynamicDAO;
+<span class="fc" id="L14">	private String time = null;</span>
+	
+	@Before
+	public void initialize() {
+<span class="fc" id="L18">		dynamicDAO = new DynamicDAO();</span>
+<span class="fc" id="L19">	}</span>
+	
+	@Test
+	public void testGetDynamicList() throws Exception {
+<span class="fc" id="L23">		List&lt;Dynamic&gt; dynamics = dynamicDAO.getDynamicList();</span>
+<span class="fc" id="L24">		assertEquals(10,dynamics.size());</span>
+<span class="fc" id="L25">	}</span>
+	
+	@Test
+	public void testGetDynamicNumberByLegalTime() throws Exception {
+<span class="fc" id="L29">		String time = &quot;2018-10-30 10:00:00&quot;;</span>
+<span class="fc" id="L30">		assertThat(dynamicDAO.getDynamicNumber(time),not(equalTo(0)));</span>
+<span class="fc" id="L31">	}</span>
+	
+	@Test
+	public void testGetDynamicNumberByNull() throws Exception {
+<span class="fc" id="L35">		assertThat(dynamicDAO.getDynamicNumber(null),equalTo(0));</span>
+<span class="fc" id="L36">	}</span>
+	
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span>TimeLine (Jan 7, 2019 4:25:28 PM)</div></body></html>

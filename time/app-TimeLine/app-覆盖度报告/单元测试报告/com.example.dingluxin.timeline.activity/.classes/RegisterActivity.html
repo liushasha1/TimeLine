@@ -1,0 +1,364 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: RegisterActivity</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.example.dingluxin.timeline.activity</a> ]
+</div>
+
+<h1>Coverage Summary for Class: RegisterActivity (com.example.dingluxin.timeline.activity)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RegisterActivity</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (33/ 44)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">RegisterActivity$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    16.7%
+  </span>
+  <span class="absValue">
+    (1/ 6)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">RegisterActivity$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    5%
+  </span>
+  <span class="absValue">
+    (1/ 20)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">RegisterActivity$2$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 3)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">RegisterActivity$2$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">RegisterActivity$RegThread</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (12/ 12)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    70.6%
+  </span>
+  <span class="absValue">
+    (12/ 17)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    54.7%
+  </span>
+  <span class="absValue">
+    (47/ 86)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.example.dingluxin.timeline.activity;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import android.app.ProgressDialog;
+<i>4</i>&nbsp;import android.content.Context;
+<i>5</i>&nbsp;import android.content.DialogInterface;
+<i>6</i>&nbsp;import android.net.ConnectivityManager;
+<i>7</i>&nbsp;import android.support.v7.app.AppCompatActivity;
+<i>8</i>&nbsp;import android.os.Bundle;
+<i>9</i>&nbsp;import android.view.View;
+<i>10</i>&nbsp;import android.widget.Button;
+<i>11</i>&nbsp;import android.widget.EditText;
+<i>12</i>&nbsp;import android.content.Intent;
+<i>13</i>&nbsp;import android.support.v7.app.AlertDialog;
+<i>14</i>&nbsp;import android.widget.RadioGroup;
+<i>15</i>&nbsp;import android.widget.Toast;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;import com.example.dingluxin.timeline.R;
+<i>18</i>&nbsp;import com.example.dingluxin.timeline.util.WebServicePost;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;import java.util.HashMap;
+<i>21</i>&nbsp;import java.util.Map;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;
+<b class="fc"><i>24</i>&nbsp;public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {</b>
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    private EditText regTelephone;
+<i>27</i>&nbsp;    private EditText regUserName;
+<i>28</i>&nbsp;    private EditText regPassWord;
+<i>29</i>&nbsp;    private EditText regConfPassWord;
+<b class="fc"><i>30</i>&nbsp;    private String gender = &quot;男&quot;;</b>
+<i>31</i>&nbsp;    private String info;
+<i>32</i>&nbsp;    private ProgressDialog dialog;
+<i>33</i>&nbsp;    // 返回主线程更新数据
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    @Override
+<i>36</i>&nbsp;    protected void onCreate(Bundle savedInstanceState) {
+<b class="fc"><i>37</i>&nbsp;        super.onCreate(savedInstanceState);</b>
+<b class="fc"><i>38</i>&nbsp;        setContentView(R.layout.activity_register);</b>
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;        RadioGroup rgroup;
+<i>41</i>&nbsp;        Button btn_reg;
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;        //初始化信息
+<b class="fc"><i>44</i>&nbsp;        regTelephone = findViewById(R.id.regTelephone);</b>
+<b class="fc"><i>45</i>&nbsp;        regUserName = findViewById(R.id.name);</b>
+<b class="fc"><i>46</i>&nbsp;        regPassWord = findViewById(R.id.regPassword);</b>
+<b class="fc"><i>47</i>&nbsp;        regConfPassWord = findViewById(R.id.regConfPassword);</b>
+<b class="fc"><i>48</i>&nbsp;        rgroup = findViewById(R.id.radioGroup);</b>
+<b class="fc"><i>49</i>&nbsp;        btn_reg = findViewById(R.id.btn_reg);</b>
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;
+<b class="fc"><i>52</i>&nbsp;        btn_reg.setOnClickListener(this);</b>
+<b class="fc"><i>53</i>&nbsp;        rgroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {</b>
+<i>54</i>&nbsp;            @Override
+<i>55</i>&nbsp;            public void onCheckedChanged(RadioGroup rg, int checkedId) {
+<b class="nc"><i>56</i>&nbsp;                switch (checkedId) {</b>
+<i>57</i>&nbsp;                    case R.id.Man:
+<b class="nc"><i>58</i>&nbsp;                        gender = &quot;男&quot;;</b>
+<b class="nc"><i>59</i>&nbsp;                        break;</b>
+<i>60</i>&nbsp;                    case R.id.Woman:
+<b class="nc"><i>61</i>&nbsp;                        gender = &quot;女&quot;;</b>
+<i>62</i>&nbsp;                        break;
+<i>63</i>&nbsp;                }
+<b class="nc"><i>64</i>&nbsp;            }</b>
+<i>65</i>&nbsp;        });
+<i>66</i>&nbsp;
+<b class="fc"><i>67</i>&nbsp;    }</b>
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    @Override
+<i>70</i>&nbsp;    public void onClick(View view) {
+<b class="fc"><i>71</i>&nbsp;        switch (view.getId()) {</b>
+<i>72</i>&nbsp;            case R.id.btn_reg:
+<i>73</i>&nbsp;
+<b class="fc"><i>74</i>&nbsp;                if(!checkNetwork()){</b>
+<b class="nc"><i>75</i>&nbsp;                    Toast.makeText(RegisterActivity.this, &quot;网络未连接！&quot;, Toast.LENGTH_SHORT).show();</b>
+<b class="nc"><i>76</i>&nbsp;                    break;</b>
+<i>77</i>&nbsp;                }
+<i>78</i>&nbsp;
+<b class="fc"><i>79</i>&nbsp;                if (regUserName.getText().length() == 0 || regTelephone.getText().length() == 0 || regPassWord.getText().length() == 0 || regConfPassWord.getText().length() == 0) {</b>
+<b class="nc"><i>80</i>&nbsp;                    Toast.makeText(RegisterActivity.this, &quot;不能为空！&quot;, Toast.LENGTH_SHORT).show();</b>
+<i>81</i>&nbsp;                } else {
+<b class="fc"><i>82</i>&nbsp;                    if (!regPassWord.getText().toString().equals(regConfPassWord.getText().toString())) {</b>
+<b class="nc"><i>83</i>&nbsp;                        Toast.makeText(RegisterActivity.this, &quot;两次密码不一致！&quot;, Toast.LENGTH_SHORT).show();</b>
+<i>84</i>&nbsp;                    } else {
+<b class="fc"><i>85</i>&nbsp;                        dialog = new ProgressDialog(RegisterActivity.this);</b>
+<b class="fc"><i>86</i>&nbsp;                        dialog.setTitle(&quot;正在注册&quot;);</b>
+<b class="fc"><i>87</i>&nbsp;                        dialog.setMessage(&quot;请稍后&quot;);</b>
+<b class="fc"><i>88</i>&nbsp;                        dialog.show();</b>
+<b class="fc"><i>89</i>&nbsp;                        new Thread(new RegThread()).start();</b>
+<i>90</i>&nbsp;                    }
+<i>91</i>&nbsp;                }
+<i>92</i>&nbsp;
+<i>93</i>&nbsp;                break;
+<i>94</i>&nbsp;        }
+<b class="fc"><i>95</i>&nbsp;    }</b>
+<i>96</i>&nbsp;
+<b class="fc"><i>97</i>&nbsp;    private class RegThread implements Runnable {</b>
+<i>98</i>&nbsp;        @Override
+<i>99</i>&nbsp;        public void run() {
+<i>100</i>&nbsp;
+<b class="fc"><i>101</i>&nbsp;            Map&lt;String, String&gt; params = new HashMap&lt;&gt;();</b>
+<b class="fc"><i>102</i>&nbsp;            params.put(&quot;teleNum&quot;, regTelephone.getText().toString());</b>
+<b class="fc"><i>103</i>&nbsp;            params.put(&quot;name&quot;, regUserName.getText().toString());</b>
+<b class="fc"><i>104</i>&nbsp;            params.put(&quot;password1&quot;, regPassWord.getText().toString());</b>
+<b class="fc"><i>105</i>&nbsp;            params.put(&quot;password2&quot;, regConfPassWord.getText().toString());</b>
+<b class="fc"><i>106</i>&nbsp;            params.put(&quot;gender&quot;, gender);</b>
+<i>107</i>&nbsp;
+<i>108</i>&nbsp;            //获取服务器返回数据
+<b class="fc"><i>109</i>&nbsp;            final String RegRet = WebServicePost.executeHttpPost(&quot;registerServlet&quot;, params);</b>
+<i>110</i>&nbsp;
+<b class="fc"><i>111</i>&nbsp;            dialog.dismiss();</b>
+<b class="fc"><i>112</i>&nbsp;            setInfo(RegRet);</b>
+<i>113</i>&nbsp;            //更新UI，界面处理
+<b class="fc"><i>114</i>&nbsp;            showReq(RegRet);</b>
+<b class="fc"><i>115</i>&nbsp;        }</b>
+<i>116</i>&nbsp;    }
+<i>117</i>&nbsp;
+<i>118</i>&nbsp;    private void showReq(final String RegRet) {
+<b class="fc"><i>119</i>&nbsp;        runOnUiThread(new Runnable() {</b>
+<i>120</i>&nbsp;            @Override
+<i>121</i>&nbsp;            public void run() {
+<b class="nc"><i>122</i>&nbsp;                if (RegRet == null) {</b>
+<b class="nc"><i>123</i>&nbsp;                    Toast.makeText(RegisterActivity.this, &quot;连接错误&quot;, Toast.LENGTH_SHORT).show();</b>
+<i>124</i>&nbsp;                } else {
+<b class="nc"><i>125</i>&nbsp;                    if (RegRet.equals(&quot;true&quot;)) {</b>
+<b class="nc"><i>126</i>&nbsp;                        dialog.dismiss();</b>
+<b class="nc"><i>127</i>&nbsp;                        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);</b>
+<b class="nc"><i>128</i>&nbsp;                        builder.setTitle(&quot;注册信息&quot;);</b>
+<b class="nc"><i>129</i>&nbsp;                        builder.setMessage(&quot;注册成功&quot;);</b>
+<b class="nc"><i>130</i>&nbsp;                        builder.setCancelable(false);</b>
+<b class="nc"><i>131</i>&nbsp;                        builder.setPositiveButton(&quot;OK&quot;, new DialogInterface.OnClickListener() {</b>
+<i>132</i>&nbsp;                            @Override
+<i>133</i>&nbsp;                            public void onClick(DialogInterface dialogInterface, int i) {
+<b class="nc"><i>134</i>&nbsp;                                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);</b>
+<b class="nc"><i>135</i>&nbsp;                                startActivity(intent);</b>
+<i>136</i>&nbsp;                            }
+<i>137</i>&nbsp;                        });
+<b class="nc"><i>138</i>&nbsp;                        builder.show();</b>
+<b class="nc"><i>139</i>&nbsp;                    } else {</b>
+<b class="nc"><i>140</i>&nbsp;                        dialog.dismiss();</b>
+<b class="nc"><i>141</i>&nbsp;                        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);</b>
+<b class="nc"><i>142</i>&nbsp;                        builder.setTitle(&quot;注册信息&quot;);</b>
+<b class="nc"><i>143</i>&nbsp;                        builder.setMessage(&quot;注册失败：&quot; + RegRet);</b>
+<b class="nc"><i>144</i>&nbsp;                        builder.setCancelable(true);</b>
+<b class="nc"><i>145</i>&nbsp;                        builder.setPositiveButton(&quot;OK&quot;, new DialogInterface.OnClickListener() {</b>
+<i>146</i>&nbsp;                            @Override
+<i>147</i>&nbsp;                            public void onClick(DialogInterface dialogInterface, int i) {
+<i>148</i>&nbsp;
+<i>149</i>&nbsp;                            }
+<i>150</i>&nbsp;                        });
+<b class="nc"><i>151</i>&nbsp;                        builder.show();</b>
+<i>152</i>&nbsp;                    }
+<i>153</i>&nbsp;                }
+<i>154</i>&nbsp;
+<i>155</i>&nbsp;
+<b class="nc"><i>156</i>&nbsp;            }</b>
+<i>157</i>&nbsp;        });
+<b class="fc"><i>158</i>&nbsp;    }</b>
+<b class="nc"><i>159</i>&nbsp;</b>
+<i>160</i>&nbsp;    public String getInfo() {
+<b class="fc"><i>161</i>&nbsp;        return info;</b>
+<b class="nc"><i>162</i>&nbsp;    }</b>
+<i>163</i>&nbsp;
+<i>164</i>&nbsp;    private void setInfo(String info) {
+<b class="fc"><i>165</i>&nbsp;        this.info = info;</b>
+<b class="fc"><i>166</i>&nbsp;    }</b>
+<b class="nc"><i>167</i>&nbsp;</b>
+<i>168</i>&nbsp;    public void setGender(String gender) {
+<b class="fc"><i>169</i>&nbsp;        this.gender = gender;</b>
+<b class="fc"><i>170</i>&nbsp;    }</b>
+<b class="nc"><i>171</i>&nbsp;</b>
+<i>172</i>&nbsp;    private boolean checkNetwork() {
+<b class="fc"><i>173</i>&nbsp;        ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);</b>
+<b class="fc"><i>174</i>&nbsp;        if (connManager.getActiveNetworkInfo() != null) {</b>
+<b class="fc"><i>175</i>&nbsp;            return connManager.getActiveNetworkInfo().isAvailable();</b>
+<b class="nc"><i>176</i>&nbsp;        }</b>
+<b class="nc"><i>177</i>&nbsp;        return false;</b>
+<b class="nc"><i>178</i>&nbsp;    }</b>
+<i>179</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-01-10 20:26</div>
+</div>
+</body>
+</html>
